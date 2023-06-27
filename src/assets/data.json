@@ -1,0 +1,88 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "donut",
+      "label": "Ciambella",
+      "imageSrc": "ciambella.png",
+      "price": 3
+    },
+    {
+      "id": 2,
+      "name": "coke",
+      "label": "Coca in bottiglia",
+      "imageSrc": "coca.png",
+      "price": 2.5
+    },
+    {
+      "id": 3,
+      "name": "coke2",
+      "label": "Coca in lattina",
+      "imageSrc": "coca_2.png",
+      "price": 2
+    },
+    {
+      "id": 4,
+      "name": "chicken_thigh",
+      "label": "Coscia di Pollo",
+      "imageSrc": "coscia_pollo.png",
+      "price": 4
+    },
+    {
+      "id": 5,
+      "name": "ice_cream",
+      "label": "Gelato",
+      "imageSrc": "gelato.png",
+      "price": 3
+    },
+    {
+      "id": 6,
+      "name": "hamburger",
+      "label": "Hamburger",
+      "imageSrc": "hamburger.png",
+      "price": 5
+    },
+    {
+      "id": 7,
+      "name": "hotdog",
+      "label": "Hot Dog",
+      "imageSrc": "hotdog.png",
+      "price": 4.5
+    },
+    {
+      "id": 8,
+      "name": "fries",
+      "label": "Patatine Fritte",
+      "imageSrc": "patatinefritte.png",
+      "price": 3.5
+    },
+    {
+      "id": 9,
+      "name": "pizza",
+      "label": "Pizza",
+      "imageSrc": "pizza.png",
+      "price": 5
+    },
+    {
+      "id": 10,
+      "name": "sausage",
+      "label": "Salsiccia",
+      "imageSrc": "salsiccia.png",
+      "price": 6.5
+    },
+    {
+      "id": 11,
+      "name": "tacos",
+      "label": "Tacos",
+      "imageSrc": "tacos.png",
+      "price": 4.5
+    },
+    {
+      "id": 12,
+      "name": "wrap",
+      "label": "Wrap",
+      "imageSrc": "wrap.png",
+      "price": 3.5
+    }
+  ]
+}

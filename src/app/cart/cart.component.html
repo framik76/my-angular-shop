@@ -1,0 +1,35 @@
+<div class="section">
+    <h2 class="subtitle is-4 has-text-weight-light">Your cart</h2>
+    <div class="columns is-multiline" *ngIf="(cart$ | async).cart.products.length > 0">
+      <div class="column is-12" *ngFor="let product of (cart$ | async).cart.products">
+        <article class="media">
+          <figure class="media-left">
+            <p class="image is-64x64">
+              <img [src]="getImageSrc(product)" style="height: 50px; width: auto; margin: 10px auto;">
+            </p>
+          </figure>
+          <div class="media-content">
+            <div class="content">
+                <h2 class="subtitle is-4" style="line-height: 64px;">{{ product.quantity }} x {{ product.name }}</h2>
+            </div>
+            <button class="button is-danger is-small" (click)="onRemoveItem(product)">Remove 1</button>
+          </div>
+          <div class="media-right">
+            <div class="tags has-addons" style="margin-top: 20px;">
+              <span class="tag is-medium">Quantity: {{ product.quantity }}</span>
+              <span class="tag is-medium is-info">{{ product.price * product.quantity }} €</span>
+            </div>
+          </div>
+        </article>
+        <hr />
+      </div>
+      <div class="column is-12">
+        <h2 class="subtitle is-3 is-pulled-right">Total: {{ (cart$ | async).cart.total }} €</h2>
+      </div>
+    </div>
+    <button *ngIf="(cart$ | async).cart.products.length > 0" class="button is-dark is-large is-pulled-right">Complete</button>
+    <div *ngIf="(cart$ | async).cart.products.length === 0">
+      <h2 class="subtitle is-5 has-text-weight-light">Your cart is empty</h2>
+    </div>
+  </div>
+  

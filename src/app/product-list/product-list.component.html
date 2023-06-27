@@ -1,0 +1,6 @@
+<h2 class="subtitle is-4 has-text-weight-light">Choose products</h2>
+<div class="columns is-multiline">
+    <div class="column is-4" *ngFor="let product of (products$ | async)">
+        <app-product-list-item [product]="product" [isLoading]="isLoading" (addToCart)="onAddToCart($event)"></app-product-list-item>
+    </div>
+</div>

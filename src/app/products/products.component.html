@@ -1,0 +1,3 @@
+<div class="section">
+    <app-product-list [products$]="products$" [isLoading]="(cart$ | async).isLoading" (addToCart)="onAddToCart($event)"></app-product-list>
+</div>

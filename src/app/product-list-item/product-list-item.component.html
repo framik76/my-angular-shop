@@ -1,0 +1,19 @@
+<div class="card">
+    <div class="card-image">
+      <figure class="image">
+        <img [src]="getImageSrc()" style="height: 150px; width: auto; margin: 20px auto;" alt="Placeholder image">
+      </figure>
+    </div>
+    <div class="card-content">
+      <div class="media">
+        <div class="media-content">
+          <p class="title is-4">{{ product.label }}</p>
+        </div>
+      </div>
+  
+      <div class="content">
+        <button class="button is-fullwidth is-dark is-outlined" [class.is-loading]="isLoading" (click)="onAddToCart()">Add to cart</button>
+      </div>
+    </div>
+  </div>
+  
