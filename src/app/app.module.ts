@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, ActionReducer, MetaReducer } from '@ngrx/store';
+import { localStorageSync } from 'ngrx-store-localstorage';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +11,11 @@ import { ProductListItemComponent } from './product-list-item/product-list-item.
 import { CartComponent } from './cart/cart.component';
 import { cartReducer } from './store/reducers/cart.reducer';
 import { productsReducer } from './store/reducers/products.reducer';
-import { hydrationMetaReducer } from './store/reducers/hydration.reducer';
+
+export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return localStorageSync({keys: ['cart'], rehydrate : true})(reducer);
+}
+const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 
 @NgModule({
   declarations: [
@@ -25,9 +30,8 @@ import { hydrationMetaReducer } from './store/reducers/hydration.reducer';
     AppRoutingModule,
     StoreModule.forRoot({
       cart: cartReducer,
-      products: productsReducer,
-      hydration: hydrationMetaReducer
-    })
+      products: productsReducer
+    }, {metaReducers})
   ],
   providers: [],
   bootstrap: [AppComponent]
