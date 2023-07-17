@@ -1,12 +1,14 @@
 import { Cart, CartProduct } from "src/app/models/cart.model";
 import * as CartActions from '../actions/cart.action';
 import { createReducer, on, Action } from "@ngrx/store";
+import { Product } from "src/app/models/product.model";
 
-export interface CartState {
+export type CartState = {
     cart: Cart;
     isLoading: boolean,
-    error: string | null
-    
+    error: boolean,
+    toAdd: Product | null,
+    toRemove: string | null
 }
 
 export const initialState: CartState = {
@@ -14,77 +16,58 @@ export const initialState: CartState = {
         products: [],
         total: 0
     },
+    toAdd: null,
+    toRemove: null,
     isLoading: false,
-    error: null
+    error: false
 }
 
 const _cartReducer = createReducer(initialState,
-    on(CartActions.addProduct, (state, { product }) => {
+    on(CartActions.addProduct, (state, payload) => {
         return {
             ...state,
-            cart: state.cart,
-            isLoading: true,
-            error: null
+            toAdd: payload.product
         }
     }),
-    on(CartActions.addProductError, (state, { error }) => {
+    on(CartActions.addProductError, (state, payload) => {
         return {
             ...state,
-            cart: state.cart,
-            isLoading: false,
-            error: error
+            error: true,
+            toAdd: null
         }
     }),
-    on(CartActions.addProductSuccess, (state, { product }) => {
-        const newProducts = state.cart.products.map(item => ({...item}));
-        const findIndex =  state.cart.products.findIndex(item => item.id === product.id);
-        if (findIndex !== -1) {
-            newProducts[findIndex].quantity += 1;
-        } else {
-            const toAdd: CartProduct = {
-                id: product.id,
-                name: product.name,
-                imageSrc: product.imageSrc,
-                price: product.price,
-                quantity: 1
-            };
-            newProducts.push(toAdd);
-        }
+    on(CartActions.addProductSuccess, (state, {result}) => {
         return {
             ...state,
-            cart: {
-                total: state.cart.total + product.price,
-                products: newProducts
-            },
+            cart: result,
             isLoading: false,
-            error: ''  
+            error: false,
+            toAdd: null  
         };
-    }),
-    on(CartActions.removeProduct, (state) => {
+    })
+    ,
+    on(CartActions.removeProduct, (state, payload) => {
         return {
             ...state,
-            cart: state.cart,
-            isLoading: true,
-            error: null
+            toRemove: payload.name
         }
     }),
-    on(CartActions.removeProductError, (state, { error }) => {
+    on(CartActions.removeProductError, (state, payload) => {
         return {
             ...state,
-            cart: state.cart,
-            isLoading: false,
-            error: error
+            error: true,
+            toRemove: null
         }
     }),
-    on(CartActions.removeProductSuccess, (state, { name }) => {
+    on(CartActions.removeProductSuccess, (state, payload) => {
         let newProducts = state.cart.products.map(item => ({...item}));
-        const findIndex =  state.cart.products.findIndex(item => item.name === name);
+        const findIndex =  state.cart.products.findIndex(item => item.name === payload.name);
         let price = 0;
         if (findIndex !== -1) {
             price = newProducts[findIndex].price;
             const quantity = newProducts[findIndex].quantity;
             if (quantity === 1) {
-                newProducts = newProducts.filter(item => item.name !== name);
+                newProducts = newProducts.filter(item => item.name !== payload.name);
             } else if (quantity > 1) {
                 newProducts[findIndex].quantity -= 1;
             }
@@ -93,11 +76,13 @@ const _cartReducer = createReducer(initialState,
         return {
             ...state,
             cart: {
+                ...state.cart,
                 total: state.cart.total - price,
                 products: newProducts
             },
             isLoading: false,
-            error: ''  
+            error: false,
+            toRemove: null  
         };
     })
 );

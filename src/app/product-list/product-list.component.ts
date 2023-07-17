@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./product-list.component.css']
 })
 export class ProductListComponent {
-  @Input() products$: Observable<Product[]>;
+  @Input() products: Product[];
   @Input() isLoading: boolean;
   @Output() addToCart: EventEmitter<Product> = new EventEmitter<Product>();
 

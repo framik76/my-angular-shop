@@ -1,4 +1,5 @@
 import { createAction, props } from "@ngrx/store";
+import { Cart, CartProduct } from "src/app/models/cart.model";
 import { Product } from "src/app/models/product.model";
 
 export const CART_ACTION = {
@@ -10,23 +11,22 @@ export const CART_ACTION = {
     REMOVE_ERROR: '[CART] ERROR REMOVE PRODUCT'    
 }
 
-export const addProduct = createAction(
-    CART_ACTION.ADD_START,
-    props<{product: Product}>()
+export const addProduct = createAction(CART_ACTION.ADD_START,
+    props<{cart: Cart, product : Product}>()
 );
 
 export const addProductSuccess = createAction(
     CART_ACTION.ADD_SUCCESS,
-    props<{product: Product}>()
+    props<{result: Cart}>()
 );
 
 export const addProductError = createAction(
     CART_ACTION.ADD_ERROR,
-    props<{error: string}>()
+    props<{error: Error}>()
 );
 
-export const removeProduct = createAction(
-    CART_ACTION.REMOVE_START  
+export const removeProduct = createAction(CART_ACTION.REMOVE_START,
+    props<{name : string}>()
 );
 
 export const removeProductSuccess = createAction(
@@ -36,5 +36,5 @@ export const removeProductSuccess = createAction(
 
 export const removeProductError = createAction(
     CART_ACTION.REMOVE_ERROR,
-    props<{error: string}>()    
+    props<{error: Error}>()    
 );

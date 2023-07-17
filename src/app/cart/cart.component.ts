@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Cart, CartProduct } from '../models/cart.model';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { CartState } from '../store/reducers/cart.reducer';
 import { removeProduct, removeProductError, removeProductSuccess } from '../store/actions/cart.action';
 
@@ -10,11 +10,27 @@ import { removeProduct, removeProductError, removeProductSuccess } from '../stor
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
-export class CartComponent {
-  cart$: Observable<CartState>;
+export class CartComponent implements OnInit {
+  observable: Observable<CartState>;
+  products: CartProduct[];
+  error: boolean;
+  total: number;
 
   constructor(private store : Store<{ cart : CartState}>) {
-    this.cart$ = store.pipe(select("cart"));
+    this.observable = store.pipe(select("cart"));
+    this.products = [];
+    this.total = 0;
+    this.error = false;
+  }
+
+  ngOnInit () {
+    this.observable.pipe(
+      map(cartState => {
+        this.products = cartState.cart.products;
+        this.total = cartState.cart.total;
+        this.error = cartState.error;
+      })
+    ).subscribe();
   }
 
   getImageSrc(product: CartProduct): string {
@@ -22,13 +38,7 @@ export class CartComponent {
   }
 
   onRemoveItem(product: CartProduct) {
-    try {
-      this.store.dispatch(removeProduct());
-      this.store.dispatch(removeProductSuccess({ name: product.name }));
-    } catch (err) {
-      const error = "Error removing from cart";
-      this.store.dispatch(removeProductError({ error }));
-    }
-
+    this.store.dispatch(removeProduct({ name: product.name }));
+    this.store.dispatch(removeProductSuccess({ name: product.name }));
   }
 }
